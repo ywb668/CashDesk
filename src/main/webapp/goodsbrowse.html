@@ -28,6 +28,7 @@
                        s += "<td>" + data[i].unit +"</td>";
                        s += "<td>" + data[i].price +"</td>";
                        s += "<td>" + data[i].discount +"</td>";
+                       s += "<td>" + "<button onclick=\"buyInfo('" + data[i].id + "')\"><i class=\"icon-trash bigger-120\" />购买</button>" + "</td>"
                        s += "<td>" + "<button onclick=\"updateInfo('" + data[i].id + "')\"><i class=\"icon-trash bigger-120\" />更改</button>" + "</td>"
                        s += "<td>" + "<button onclick=\"deleteInfo('" + data[i].id + "')\">" + "<i class=\"icon-trash bigger-120\" />下架</button>" + "</td>"
                        s += "</tr>";
@@ -67,6 +68,14 @@
             })
         }
 
+        //TODO 浏览页面处实现购买功能
+        function buyInfo(obj) {
+
+        }
+
+        function toMenu() {
+            window.location.href="index.html";
+        }
     </script>
 
 </head>
@@ -96,6 +105,7 @@
                                     <th>商品单位</th>
                                     <th>商品价格(元)</th>
                                     <th>商品折扣</th>
+                                    <th>购买商品</th>
                                     <th>修改商品</th>
                                     <th>下架商品</th>
                                 </tr>
@@ -108,6 +118,10 @@
                             </table>
                         </div>
                         <!--分页显示角色信息 end-->
+                        <div class="am-u-sm-9 am-u-sm-push-3" style="position: inherit">
+                            <input type="button" class="am-btn am-btn-success"
+                                   value="返回首页" onclick="toMenu()"/>
+                        </div>
                     </li>
                 </ul>
             </div>

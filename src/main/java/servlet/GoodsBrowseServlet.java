@@ -23,54 +23,44 @@ import java.util.List;
 public class GoodsBrowseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("GoodsBrowseServlet start");
+        //System.out.println("GoodsBrowseServlet start");
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
 
-        //TODO 查询数据库所有元素，并处理
-
-        ResultSet resultSet = null;
-
+        //查询数据库所有元素，并处理
         String sql = "select id,name,introduce,stock,unit,price,discount from goods";
         try(Connection connection = DBUtil.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
-            resultSet = statement.executeQuery();
 
-            List<Goods> list = new ArrayList<>();
-            while(resultSet.next()) {
-                Goods goods = new Goods();
-                goods.setId(resultSet.getInt("id"));
-                goods.setName(resultSet.getString("name"));
-                goods.setIntroduce(resultSet.getString("introduce"));
-                goods.setStock(resultSet.getInt("stock"));
-                goods.setUnit(resultSet.getString("unit"));
-                goods.setPrice(resultSet.getInt("price"));
-                goods.setDiscount(resultSet.getInt("discount"));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<Goods> list = new ArrayList<>();
+                while (resultSet.next()) {
+                    Goods goods = new Goods();
+                    goods.setId(resultSet.getInt("id"));
+                    goods.setName(resultSet.getString("name"));
+                    goods.setIntroduce(resultSet.getString("introduce"));
+                    goods.setStock(resultSet.getInt("stock"));
+                    goods.setUnit(resultSet.getString("unit"));
+                    goods.setPrice(resultSet.getInt("price"));
+                    goods.setDiscount(resultSet.getInt("discount"));
 
-                list.add(goods);
+                    list.add(goods);
+                }
+                System.out.println(list);
+                //将list对转换为json，返回给前端
+                //可以方便的将模型对象转换为json
+                ObjectMapper mapper = new ObjectMapper();
+                PrintWriter pw = resp.getWriter();
+                //将list转换成json字符串，放到pw中
+                mapper.writeValue(pw, list);
+
+                Writer writer = resp.getWriter();
+                writer.write(pw.toString());
+                writer.close();
             }
-            System.out.println(list);
-            //将list对转换为json，返回给前端
-            //可以方便的将模型对象转换为json
-            ObjectMapper mapper = new ObjectMapper();
-            PrintWriter pw = resp.getWriter();
-            //将list转换成json字符串，放到pw中
-            mapper.writeValue(pw, list);
-
-            Writer writer = resp.getWriter();
-            writer.write(pw.toString());
-            writer.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(resultSet != null)
-                    resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

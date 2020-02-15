@@ -2,7 +2,7 @@
 <html >
 <head>
     <meta charset="UTF-8">
-    <title>收银台注册</title>
+    <title>登录失败</title>
 
 
 
@@ -42,7 +42,7 @@
         }
         .logindemo h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
 
-        .input {
+        input {
             width: 100%;
             margin-bottom: 10px;
             background: rgba(0,0,0,0.3);
@@ -74,19 +74,10 @@
 <body>
 
 <div class="logindemo">
-    <h1>用户注册</h1>
-    <form action="register" method="post">
-        <i style="color: white">用户名:</i><input type="text" class="input" name="username" placeholder="请输入用户名">
-        <i style="color: white">密码:</i><input type="password" class="input" name="password" placeholder="请输入密码">
-        <i style="color: white">使用者身份:</i><select name="identity" class="input">
-            <option value="请选择">请选择</option>
-            <option value="普通用户">普通用户</option>
-            <option value="管理员">管理员</option>
-        </select><br />
-        <button type="submit" class="btn btn-primary btn-block btn-large">立即注册</button>
-    </form>
-    <br />
-    <a href="login.html" class="btn btn-primary btn-block btn-large">返回登录页面</a>
+    <h1>上架商品失败</h1><br />
+    <h3 style="color: white">该商品上架成功！！！</h3><br />
+    <a href="goodsbrowse.html" class="btn btn-primary btn-block btn-large">查询已有商品</a><br />
+    <a href="inbound.html" class="btn btn-primary btn-block btn-large">继续上架商品</a>
 </div>
 
 

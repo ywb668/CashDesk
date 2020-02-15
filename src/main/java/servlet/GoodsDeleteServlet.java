@@ -15,15 +15,15 @@ import java.sql.SQLException;
 @WebServlet("/delGoods")
 public class GoodsDeleteServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
 
-        System.out.println("正在删除");
-        System.out.println(req.getParameter("id"));
+        /*System.out.println("正在删除");
+        System.out.println(req.getParameter("id"));*/
 
-        Integer id = Integer.parseInt(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("id"));
 
         String sql = "delete from goods where id=?";
         try (Connection connection = DBUtil.getConnection();
