@@ -18,6 +18,14 @@ public class Order {
     private Integer total_money;
     private OrderStatus order_status;
 
+    public String getOrder_status() {
+        return order_status.getDesc();
+    }
+
+    public OrderStatus getOrder_statusName() {
+        return order_status;
+    }
+
     //订单项的内容
     public List<OrderItem> orderItems = new ArrayList<>();
 

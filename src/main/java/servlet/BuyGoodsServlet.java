@@ -91,9 +91,9 @@ public class BuyGoodsServlet extends HttpServlet {
                 statement1.setString(3, order.getAccount_name());
                 statement1.setString(4, order.getCreate_time());
                 statement1.setString(5, order.getFinish_time());
-                statement1.setString(6, String.valueOf(order.getActual_amount()));
-                statement1.setString(7, String.valueOf(order.getTotal_money()));
-                statement1.setString(8, String.valueOf(order.getOrder_status().getFlg()));
+                statement1.setString(6, String.valueOf(order.getActual_amountInt()));
+                statement1.setString(7, String.valueOf(order.getTotal_moneyInt()));
+                statement1.setString(8, String.valueOf(order.getOrder_statusName().getFlg()));
                 if (statement1.executeUpdate() == 0)
                     throw new RuntimeException("订单插入失败");
 

@@ -1,4 +1,9 @@
-<%--
+<%@ page import="java.sql.Connection" %>
+<%@ page import="util.DBUtil" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="entity.Goods" %><%--
   Created by IntelliJ IDEA.
   User: LENOVO
   Date: 2020/2/12
@@ -20,8 +25,31 @@
 <body>
 <%
     System.out.println(request);
-    String id = request.getParameter("id");
+    HttpSession httpSession = request.getSession();
+    int id = (Integer)httpSession.getAttribute("id");
     System.out.println(id);
+
+    /*根据id查出对应的商品信息*/
+    String sql = "select id,name,introduce,stock,unit,price,discount from goods where id=?";
+
+    Goods goods = new Goods();
+    try(Connection connection = DBUtil.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, id);
+        try(ResultSet resultSet = statement.executeQuery()) {
+            if(resultSet.next()) {
+                goods.setId(id);
+                goods.setName(resultSet.getString("name"));
+                goods.setIntroduce(resultSet.getString("introduce"));
+                goods.setStock(resultSet.getInt("stock"));
+                goods.setUnit(resultSet.getString("unit"));
+                goods.setPrice(resultSet.getInt("price"));
+                goods.setDiscount(resultSet.getInt("discount"));
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
 %>
 <div class="dvcontent">
     <div>
@@ -56,7 +84,7 @@
                                                         需更新商品ID</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="goodsID" required
-                                                               placeholder="商品商品ID" name="goodsID">
+                                                               value="<%=goods.getId()%>" name="goodsID">
                                                         <small>商品ID</small>
                                                     </div>
                                                 </div>
@@ -66,7 +94,7 @@
                                                         商品名称</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="name" required
-                                                               placeholder="商品名称" name="name">
+                                                               placeholder="商品名称" value="<%=goods.getName()%>" name="name">
                                                         <small>商品</small>
                                                     </div>
                                                 </div>
@@ -76,7 +104,7 @@
                                                         需更新库存</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="stock" required
-                                                               placeholder="库存" name="stock">
+                                                               placeholder="库存" value="<%=goods.getStock()%>" name="stock">
                                                         <small>库存</small>
                                                     </div>
                                                 </div>
@@ -85,7 +113,7 @@
                                                         需更新商品介绍</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="introduce" required
-                                                               placeholder="商品介绍" name="introduce">
+                                                               placeholder="商品介绍" value="<%=goods.getIntroduce()%>" name="introduce">
                                                         <small>商品介绍</small>
                                                     </div>
                                                 </div>
@@ -94,7 +122,7 @@
                                                         需更新商品单位</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="unit" required
-                                                               placeholder="商品单位" name="unit">
+                                                               placeholder="商品单位" value="<%=goods.getUnit()%>" name="unit">
                                                         <small>商品单位</small>
                                                     </div>
                                                 </div>
@@ -103,8 +131,8 @@
                                                         需更新商品价格</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="price" required
-                                                               placeholder="商品价格" name="price">
-                                                        <small>商品价格</small>
+                                                               placeholder="商品价格" value="<%=goods.getPrice()%>" name="price">
+                                                        <small>商品价格(单位:元)</small>
                                                     </div>
                                                 </div>
                                                 <div class="am-form-group">
@@ -112,7 +140,7 @@
                                                         需更新商品折扣</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="discount" required
-                                                               placeholder="商品折扣" name="discount">
+                                                               placeholder="商品折扣" value="<%=goods.getDiscount()%>" name="discount">
                                                         <small>商品折扣</small>
                                                     </div>
                                                 </div>

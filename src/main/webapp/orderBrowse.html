@@ -9,12 +9,49 @@
     <link rel="stylesheet" href="css/font-awesome.min.css"/>
     <link rel="stylesheet" href="css/amazeui.min.css"/>
     <link rel="stylesheet" href="css/admin.css"/>
-    <script src = "https://code.jquery.com/jquery-3.3.1.min.js"> </script>
+    <script src="js/jquery-1.7.2.min.js"> </script>
 
     <script>
-        
-		
-		
+        $(function () {
+            $.ajax({
+                url:"browseOrder",
+                type:"get",
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    var s = "";
+                    for (var i = 0; i < data.length; i++) {
+                        s += "<tr >";
+                        s += "<td>";//默认无序列表
+                        s += "<li > 【订单号】:" + data[i].id+"</li>";
+                        s += "<li > 【订单状态】:" + data[i].order_status+"</li>";
+                        s += "<li > 【订单创建时间】:" + data[i].create_time+"</li>";
+                        s += "<li > 【订单完成时间】:" + data[i].finish_time+"</li>";
+                        s += "</td>";
+                        s += "<td>";
+                        s += "<ol>";
+                        for (var j = 0; j < data[i].orderItems.length; j++) {
+                            s += "<li>" + data[i].orderItems[j].goodsName +" "+
+                                data[i].orderItems[j].goodsNum
+                                + data[i].orderItems[j].goodsUnit+" "+
+                                data[i].orderItems[j].goodsPrice * data[i].orderItems[j].goodsNum+"元</li>";
+                        } s
+                            += "</ol>";
+                        s += "</td>";
+                        s += "<td>";
+                        s += "<li > 【总金额】:" + data[i].total_money+"元</li>";
+                        s += "<li> 【优惠金额】：" + data[i].discount+"元</li>";
+                        s += "<li> 【应支付金额】：" + data[i].actual_amount+"元</li>";
+                        s += "<td>";
+                        s += "</td>";
+                        s += "</tr>";
+                    }
+                    console.log(s);
+                    $("#tbRecord>tbody").html(s);
+                }
+            });
+        });
+
     </script>
 
 </head>
@@ -43,18 +80,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-									<tr>
-                                        <td> 1 </td>
-                                        <td> 肉肉 </td>
-                                        <td> 猪猪 </td>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td> 2 </td>
-                                        <td> 肉肉 </td>
-                                        <td> 兔兔 </td>
-                                        
-                                    </tr>
+
                                 </tbody>
 
                             </table>

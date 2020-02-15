@@ -57,6 +57,7 @@
         function updateInfo(obj) {
             console.log(obj);
             $.ajax({
+                url:"setSessionServlet",
                 type:"post",
                 data:{"id" : obj},
                 success:function (msg) {

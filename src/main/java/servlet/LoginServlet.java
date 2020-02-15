@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
                 Account account = new Account();
                 account.setId(resultSet.getInt("id"));
                 account.setUserName(resultSet.getString("username"));
-                account.setUserName(resultSet.getString("password"));
+                account.setPassword(resultSet.getString("password"));
                 accounts.add(account);
             }
             if(accounts.size() == 1) {

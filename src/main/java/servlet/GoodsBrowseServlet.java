@@ -60,6 +60,7 @@ public class GoodsBrowseServlet extends HttpServlet {
 
             Writer writer = resp.getWriter();
             writer.write(pw.toString());
+            writer.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
