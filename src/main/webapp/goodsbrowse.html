@@ -58,7 +58,7 @@
         function updateInfo(obj) {
             console.log(obj);
             $.ajax({
-                url:"setSessionServlet",
+                url:"setUpdateSessionServlet",
                 type:"post",
                 data:{"id" : obj},
                 success:function (msg) {
@@ -70,7 +70,16 @@
 
         //TODO 浏览页面处实现购买功能
         function buyInfo(obj) {
-
+            console.log(obj);
+            $.ajax({
+                url:"setBuySessionServlet",
+                type:"post",
+                data:{"id" : obj},
+                success:function (msg) {
+                    if(msg)
+                        window.location.href = "pay.jsp";
+                }
+            })
         }
 
         function toMenu() {

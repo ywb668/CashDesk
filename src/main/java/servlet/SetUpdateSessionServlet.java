@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/setSessionServlet")
-public class SetSessionServlet extends HttpServlet {
+/**
+ * 用于将商品id存入session，方便接下来的jsp页面对该商品信息的修改
+ */
+@WebServlet("/setUpdateSessionServlet")
+public class SetUpdateSessionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("自定义修改了");
@@ -19,5 +22,5 @@ public class SetSessionServlet extends HttpServlet {
         session.setAttribute("id", id);
 
         resp.sendRedirect("updategoods.jsp");
-    }
+}
 }
