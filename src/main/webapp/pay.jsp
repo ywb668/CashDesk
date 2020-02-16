@@ -1,19 +1,21 @@
+<%@ page import="entity.Goods" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="util.DBUtil" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.SQLException" %>
+<%@ page import="util.DBUtil" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="entity.Goods" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%--
   Created by IntelliJ IDEA.
   User: LENOVO
-  Date: 2020/2/12
-  Time: 21:07
+  Date: 2020/2/16
+  Time: 14:19
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
 <head>
-    <title>Title</title>
+    <title>购买商品</title>
     <link rel="stylesheet"/>
     <link rel="stylesheet" href="css/Site.css"/>
     <link rel="stylesheet" href="css/zy.all.css"/>
@@ -22,6 +24,7 @@
     <link rel="stylesheet" href="css/admin.css"/>
 
 </head>
+
 <body>
 <%
     HttpSession httpSession = request.getSession();
@@ -52,10 +55,10 @@
 <div class="dvcontent">
     <div>
         <!--tab start-->
-        <div class="tabs3" style="margin: 0px;">
+        <div class="taborder" style="margin: 30px;">
             <div class="hd">
                 <ul>
-                    <li class="" style="box-sizing: initial;-webkit-box-sizing: initial;">商品信息更新</li>
+                    <li class="" style="box-sizing: initial;-webkit-box-sizing: initial;">支付订单</li>
                 </ul>
             </div>
             <div class="bd">
@@ -73,79 +76,48 @@
 
                                         </div>
                                         <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4"
-                                             style="padding-top: 30px;">
+                                             style="padding-top: 70px;">
                                             <form class="am-form am-form-horizontal"
-                                                  action="updateGoods" method="post">
+                                                  action="payServlet" method="post">
 
                                                 <div class="am-form-group">
                                                     <label for="goodsID" class="am-u-sm-3 am-form-label">
-                                                        需更新商品ID</label>
+                                                        购买商品的ID</label>
                                                     <div class="am-u-sm-9">
                                                         <input type="text" id="goodsID" required
-                                                               value="<%=goods.getId()%>" name="goodsID">
-                                                        <small>商品ID</small>
+                                                               placeholder="请输入你要购买的货物id" value="<%=goods.getId()%>" name="goodsID">
+                                                        <small>需购买商品的ID</small>
+                                                    </div>
+
+                                                    <label for="goodsName" class="am-u-sm-3 am-form-label">
+                                                        购买商品的名称</label>
+                                                    <div class="am-u-sm-9">
+                                                        <input type="text" id="goodsName" required
+                                                               value="<%=goods.getName()%>" name="goodsName">
+                                                        <small>需购买商品的名称</small>
+                                                    </div>
+
+                                                    <label for="goodsPrice" class="am-u-sm-3 am-form-label">
+                                                        购买商品的价格</label>
+                                                    <div class="am-u-sm-9">
+                                                        <input type="text" id="goodsPrice" required
+                                                               value="<%=goods.getPrice()%>" name="goodsPrice">
+                                                        <small>需购买商品的价格(单位:元)</small>
+                                                    </div>
+
+                                                    <label for="goodsNum" class="am-u-sm-3 am-form-label">
+                                                        需购买商品的数量</label>
+                                                    <div class="am-u-sm-9">
+                                                        <input type="text" id="goodsNum" required
+                                                               placeholder="请输入你要购买的货物数量" name="goodsNum">
+                                                        <small>需购买商品的数量</small>
                                                     </div>
                                                 </div>
 
-                                                <div class="am-form-group">
-                                                    <label for="name" class="am-u-sm-3 am-form-label">
-                                                        商品名称</label>
-                                                    <div class="am-u-sm-9">
-                                                        <input type="text" id="name" required
-                                                               placeholder="商品名称" value="<%=goods.getName()%>" name="name">
-                                                        <small>商品</small>
-                                                    </div>
-                                                </div>
-
-                                                <div class="am-form-group">
-                                                    <label for="stock" class="am-u-sm-3 am-form-label">
-                                                        需更新库存</label>
-                                                    <div class="am-u-sm-9">
-                                                        <input type="text" id="stock" required
-                                                               placeholder="库存" value="<%=goods.getStock()%>" name="stock">
-                                                        <small>库存</small>
-                                                    </div>
-                                                </div>
-                                                <div class="am-form-group">
-                                                    <label for="introduce" class="am-u-sm-3 am-form-label">
-                                                        需更新商品介绍</label>
-                                                    <div class="am-u-sm-9">
-                                                        <input type="text" id="introduce" required
-                                                               placeholder="商品介绍" value="<%=goods.getIntroduce()%>" name="introduce">
-                                                        <small>商品介绍</small>
-                                                    </div>
-                                                </div>
-                                                <div class="am-form-group">
-                                                    <label for="unit" class="am-u-sm-3 am-form-label">
-                                                        需更新商品单位</label>
-                                                    <div class="am-u-sm-9">
-                                                        <input type="text" id="unit" required
-                                                               placeholder="商品单位" value="<%=goods.getUnit()%>" name="unit">
-                                                        <small>商品单位</small>
-                                                    </div>
-                                                </div>
-                                                <div class="am-form-group">
-                                                    <label for="price" class="am-u-sm-3 am-form-label">
-                                                        需更新商品价格</label>
-                                                    <div class="am-u-sm-9">
-                                                        <input type="text" id="price" required
-                                                               placeholder="商品价格" value="<%=goods.getPrice()%>" name="price">
-                                                        <small>商品价格(单位:元)</small>
-                                                    </div>
-                                                </div>
-                                                <div class="am-form-group">
-                                                    <label for="discount" class="am-u-sm-3 am-form-label">
-                                                        需更新商品折扣</label>
-                                                    <div class="am-u-sm-9">
-                                                        <input type="text" id="discount" required
-                                                               placeholder="商品折扣" value="<%=goods.getDiscount()%>" name="discount">
-                                                        <small>商品折扣</small>
-                                                    </div>
-                                                </div>
                                                 <div class="am-form-group">
                                                     <div class="am-u-sm-9 am-u-sm-push-3">
                                                         <input type="submit" class="am-btn am-btn-success"
-                                                               value="更新商品"/>
+                                                               value="购买商品"/>
                                                         <input type="button" class="am-btn am-btn-success"
                                                                value="商品列表" onclick="toGoods()"/>
                                                         <input type="button" class="am-btn am-btn-success"
@@ -169,8 +141,11 @@
                 <script src="js/_layout.js"></script>
                 <script src="js/plugs/jquery.SuperSlide.source.js"></script>
                 <script>
+                    // var num = 1;
                     $(function () {
-                        $(".tabs3").slide({trigger: "click"});
+
+                        $(".taborder").slide({trigger: "click"});
+
                     });
                     function toMenu() {
                         window.location.href="index.html";

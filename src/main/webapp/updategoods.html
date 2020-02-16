@@ -111,6 +111,10 @@
                                                     <div class="am-u-sm-9 am-u-sm-push-3">
                                                         <input type="submit" class="am-btn am-btn-success"
                                                                value="更新商品"/>
+                                                        <input type="button" class="am-btn am-btn-success"
+                                                               value="商品列表" onclick="toGoods()"/>
+                                                        <input type="button" class="am-btn am-btn-success"
+                                                               value="返回首页" onclick="toMenu()"/>
                                                     </div>
                                                 </div>
                                             </form>
@@ -133,6 +137,12 @@
                     $(function () {
                         $(".tabs3").slide({trigger: "click"});
                     });
+                    function toMenu() {
+                        window.location.href="index.html";
+                    }
+                    function toGoods() {
+                        window.location.href="goodsbrowse.html";
+                    }
                 </script>
             </div>
         </div>

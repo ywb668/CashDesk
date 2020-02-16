@@ -24,20 +24,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/pay")
-public class ReadyBuyServlet extends HttpServlet {
+@WebServlet("/payServlet")
+public class ReadyBuyOneServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
 
-        String goodsAndNum = req.getParameter("goodsIDAndNum");
-
-        System.out.println("goodsAndNum:" + goodsAndNum);
-
-        String[] strings = goodsAndNum.split(",");
-
+        int id = Integer.parseInt(req.getParameter("goodsID"));
+        int num = Integer.parseInt(req.getParameter("goodsNum"));
 
         HttpSession session = req.getSession();
         Account account = (Account) session.getAttribute("user");
@@ -51,18 +47,14 @@ public class ReadyBuyServlet extends HttpServlet {
         order.setAccount_name(account.getUserName());
 
         List<Goods> list = new ArrayList<>();
-        for (String s : strings) {
-            String[] str = s.split("-");
-            //根据id查询商品是否存在
-            Goods goods = getGoods(Integer.parseInt(str[0]));
 
+        Goods goods = getGoods(id);
 
-            if (goods != null) {
-                list.add(goods);
-                goods.setBuyGoodsNum(Integer.parseInt(str[1]));
-            } else {
-                throw new RuntimeException("该商品不存在");
-            }
+        if (goods != null) {
+            list.add(goods);
+            goods.setBuyGoodsNum(num);
+        } else {
+            throw new RuntimeException("该商品不存在");
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -70,29 +62,25 @@ public class ReadyBuyServlet extends HttpServlet {
 
         int totalMoney = 0;
         int actualMoney = 0;
-        for (Goods goods1 : list) {
-            OrderItem item = new OrderItem();
-            item.setOrderId(order.getId());
-            item.setGoodsId(goods1.getId());
-            item.setGoodsName(goods1.getName());
-            item.setGoodsIntroduce(goods1.getIntroduce());
-            item.setGoodsNum(goods1.getBuyGoodsNum());
-            item.setGoodsUnit(goods1.getUnit());
-            item.setGoodsPrice(goods1.getPriceInt());
-            item.setGoodsDiscount(goods1.getDiscount());
 
-            order.orderItems.add(item);
+        OrderItem item = new OrderItem();
+        item.setOrderId(order.getId());
+        item.setGoodsId(goods.getId());
+        item.setGoodsName(goods.getName());
+        item.setGoodsIntroduce(goods.getIntroduce());
+        item.setGoodsNum(goods.getBuyGoodsNum());
+        item.setGoodsUnit(goods.getUnit());
+        item.setGoodsPrice(goods.getPriceInt());
+        item.setGoodsDiscount(goods.getDiscount());
 
-            totalMoney += goods1.getPriceInt() * goods1.getBuyGoodsNum();
-            actualMoney += goods1.getPriceInt() * goods1.getBuyGoodsNum() * goods1.getDiscount() / 100;
-        }
+        order.orderItems.add(item);
 
-        System.out.println(order.orderItems);
+        totalMoney += goods.getPriceInt() * goods.getBuyGoodsNum();
+        actualMoney += goods.getPriceInt() * goods.getBuyGoodsNum() * goods.getDiscount() / 100;
 
         order.setTotal_money(totalMoney);
         order.setActual_amount(actualMoney);
         order.setOrder_status(OrderStatus.PAYING);
-
 
         HttpSession session1 = req.getSession();
         session1.setAttribute("order", order);
