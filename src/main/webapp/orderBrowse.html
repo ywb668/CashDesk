@@ -52,6 +52,9 @@
             });
         });
 
+        function toMenu() {
+            window.location.href="index.html";
+        }
     </script>
 
 </head>
@@ -59,7 +62,7 @@
 <div class="dvcontent">
     <div>
         <!--tab start-->
-        <div class="tabs" style="height: 800px; overflow:scroll">
+        <div class="tabs" style="height: 550px; overflow:scroll">
             <div class="hd">
                 <ul>
                     <li class="on" style="box-sizing: initial;-webkit-box-sizing: initial;">浏览订单</li>
@@ -89,6 +92,10 @@
                     </li>
                 </ul>
             </div>
+        </div>
+        <div class="am-u-sm-9 am-u-sm-push-3" style="position: inherit">
+            <input type="button" class="am-btn am-btn-success"
+                   value="返回首页" onclick="toMenu()"/>
         </div>
     </div>
 </div>
